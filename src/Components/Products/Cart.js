@@ -12,7 +12,7 @@ const Cart=({cartItems,deleteCartItem,proccedeToCheckout})=> {
                 {
                     cartItems.length>0 && <p>Total <span>${cartItems.map(item=>item.price * item.quanitity).reduce((a, b)=> a + b , 0)}</span></p>
                 }
-                <button onClick={proccedeToCheckout}>Proccede</button>
+                <button className="btn" onClick={proccedeToCheckout}>Proccede</button>
             </div>
         </div>
     )
