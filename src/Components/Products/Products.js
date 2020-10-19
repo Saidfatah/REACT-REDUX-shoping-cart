@@ -14,8 +14,12 @@ const Products=()=>{
         setproductsToDisplay(productsData.products)
     }, [])
 
+
     return (
              <div className="products">
+                 <div className="products__header">
+                     <p className="products__count">{productsToDisplay.length}</p>      
+                 </div>
                 {products.map((product,index)=><ProductItem  key={index} product={product} />)}
              </div>
     )
