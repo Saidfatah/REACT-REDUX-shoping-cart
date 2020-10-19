@@ -14,14 +14,11 @@ const Products=()=>{
         setproductsToDisplay(productsData.products)
     }, [])
 
-    const orderByPrice =()=>{
-        const orderProducts = products.sort((a,b)=>)
-    } 
+
     return (
              <div className="products">
                  <div className="products__header">
-                     <p className="products__count">{productsToDisplay.length}</p>
-             
+                     <p className="products__count">{productsToDisplay.length}</p>      
                  </div>
                 {products.map((product,index)=><ProductItem  key={index} product={product} />)}
              </div>
