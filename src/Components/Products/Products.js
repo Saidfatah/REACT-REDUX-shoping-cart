@@ -5,11 +5,10 @@ import Cart from './Cart'
 import FilterBar from './FilterBar'
 
 
-const Products=()=>{
+const Products=({addToCart})=>{
     const [products, setproducts] = useState([])
     const [productsToDisplay, setproductsToDisplay] = useState([])
-    const [size, setsize] = useState("")
-    const [sort, setsort] = useState("")
+
 
     useEffect(() => {
         setproducts(productsData.products)
@@ -23,7 +22,7 @@ const Products=()=>{
               <FilterBar {...{setproductsToDisplay,products}} />   
           </div>
           <div className="products__wrapper">
-              {productsToDisplay.map((product,index)=><ProductItem  key={index} product={product} />)}
+              {productsToDisplay.map((product,index)=><ProductItem  key={index} {...{addToCart,product}} />)}
           </div>
       </div>
     )
