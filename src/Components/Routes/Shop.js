@@ -4,6 +4,7 @@ const Shop=()=> {
     return (
         <div className="container page">
             products
+            feature 1 
         </div>
     )
 }
