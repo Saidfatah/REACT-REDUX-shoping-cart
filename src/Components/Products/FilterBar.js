@@ -11,7 +11,9 @@ const FilterBar=({setproductsToDisplay,products})=> {
         orderProducts = products.slice().sort((a,b)=>(
             sortOrder =="LOWEST" 
             ?((a.price > b.price) ?1:-1)
-            :((a.price < b.price) ?1:-1)
+            : sortOrder =="HIGHEST" 
+                 ?((a.price < b.price) ?1:-1)
+                 :1
         ))
 
         setproductsToDisplay(orderProducts)
@@ -28,10 +30,11 @@ const FilterBar=({setproductsToDisplay,products})=> {
 
     return (
     <div className="products__filter">
-        <p className="products__count"><span>{products.length}</span> products</p> 
+        <p className="products__count">products :<span>{products.length}</span></p> 
         <div className="products__filter__group">
             <p>order :</p>
             <select onChange={orderByPrice}>
+                <option value="LATEST">LATEST </option>
                 <option value="LOWEST">Lowest </option>
                 <option value="HIGHEST">Highest </option>
             </select>
