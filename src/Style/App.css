@@ -1,0 +1,40 @@
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a{
+  text-decoration: none;
+}
+.App {
+
+}
+
+.container{
+  margin : 0 5%auto ;
+}
+.header {
+  background-color: #282c34;
+  color: white;
+}
+.footer {
+  background-color: #282c34;
+  height:25vh;
+  color: white;
+}
+.header >div{
+  display: flex;
+}
+.header a{
+  color: white;
+  display: block;
+  line-height: 2.6em;
+  margin-right: 1rem;
+
+}
+
+
+
+.page{
+    min-height: 100vh;
+}
