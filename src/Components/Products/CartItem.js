@@ -6,7 +6,6 @@ const CartItem=({item,deleteCartItem})=> {
         <div className="cartItem">
              <div>
                  <div className="cartItem__image"> <img  src={image} /></div>
-                
              </div>
              <div >
                 <p  className="cartItem__title">{title}</p>
