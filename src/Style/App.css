@@ -53,6 +53,7 @@ ul{list-style: none;}
 }
 .btn{
   padding: .25rem 1rem;
+  color: var(--colorBlueGrey);
   background-color: var(--colorPrimary);
   border: 1px solid var(--colorPrimaryDark) ;
   transition:all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -87,7 +88,6 @@ ul{list-style: none;}
 display: flex;
 }
 .cart{
-  margin-top: 2rem;
   padding: 0 .5rem;
   flex: 1;
 }
@@ -102,6 +102,8 @@ display: flex;
 .products__header{
   display: flex;
   margin-top: 1rem;
+  min-height: 29px;
+  padding-bottom: .5rem;
   border-bottom:1px solid  var(--colorPrimaryDark);
 }
 .products__count{
@@ -212,8 +214,12 @@ display: flex;
   position: relative;
   top:50px;
   opacity: 0;
+  margin-top: .25rem;
+  border: 1px solid var(--colorPrimary);
+  padding: .25rem;
   animation: productFadeIn .5s ease-out forwards;
   display: flex;
+  justify-content: space-between;
 }
 .cartItem > div{
   display: flex;
@@ -221,6 +227,7 @@ display: flex;
 }
 .cartItem > div:last-child{
   flex-direction: column;
+  justify-content: space-between;
 }
 .cartItem__title{
   font-size: 1rem;
