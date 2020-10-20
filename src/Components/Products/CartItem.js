@@ -10,7 +10,7 @@ const CartItem=({item,deleteCartItem})=> {
              </div>
              <div >
                 <p  className="cartItem__title">{title}</p>
-                <p  className="cartItem__price"> <span>{quanitity}</span> * {price}</p>
+                <p  className="cartItem__price"> <span>{quanitity}</span> x {price}</p>
                 <button className="btn-grey" onClick={e=>deleteCartItem(_id)}>remove</button>
              </div>
         </div>

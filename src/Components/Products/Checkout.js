@@ -11,6 +11,7 @@ const defaultUserInfo= {
     email:'',
     address:'',
 }
+
 const Checkout=({isCheckoutFormVisible,setisCheckoutFormVisible,cartItems,createOrder})=> {
     const [userInfo, setuserInfo] = useState({...defaultUserInfo})
     const [errs, seterrs] = useState({...defaultErrsObj})
@@ -19,8 +20,9 @@ const Checkout=({isCheckoutFormVisible,setisCheckoutFormVisible,cartItems,create
     const formRef= useRef()
 
     useEffect(() => {
+        if(cartItems && cartItems.length == 0)setisCheckoutFormVisible(false)
          setuserInfo({...defaultUserInfo})
-    }, [isCheckoutFormVisible])
+    }, [isCheckoutFormVisible,cartItems])
 
     const handleChange=(field)=>(e)=>setuserInfo({...userInfo,[field]:e.target.value})
 

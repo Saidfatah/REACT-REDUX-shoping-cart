@@ -10,14 +10,18 @@ const Cart=({cartItems,deleteCartItem,proccedeToCheckout,createOrder})=> {
               {cartItems && cartItems.map((item,index)=><CartItem key={index} {...{item,deleteCartItem}} />)} 
              <div className="cart__checkout">
                  {
-                     cartItems.length>0 && <p>Total <span>${cartItems.map(item=>item.price * item.quanitity).reduce((a, b)=> a + b , 0)}</span></p>
+                     cartItems.length>0 && <p>Total <span>${cartItems.map(item=>parseFloat(item.price)*item.quanitity).reduce((a, b)=> a + b , 0).toFixed(2)}</span></p>
                  }
-                 <button  className="btn" onClick={e=>{
-                     proccedeToCheckout(e);
-                     setisCheckoutFormVisible(true)
-                 }}>Proccede</button>
+                 {
+                     cartItems.length > 0
+                     ? <button   className="btn" onClick={e=>{
+                         proccedeToCheckout(e);
+                         setisCheckoutFormVisible(true)
+                     }}>Proccede</button>
+                     :null
+                 }
              </div>
-             <Checkout {...{isCheckoutFormVisible, createOrder,setisCheckoutFormVisible}} />
+             <Checkout {...{isCheckoutFormVisible,cartItems, createOrder,setisCheckoutFormVisible}} />
          </div>
      )
 }
