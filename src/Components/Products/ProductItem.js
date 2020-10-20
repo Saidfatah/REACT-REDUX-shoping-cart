@@ -1,18 +1,20 @@
-import React from 'react'
+import React,{useState} from 'react'
+import PorductModal from './PorductModal'
 
 const ProductItem=({product,addToCart})=> {
-    const {title,image,price,description,sizes,id}=product
+    const [modalIsOpen,setIsOpen] = useState(false);
+    const {title,image,price}=product
+
+
     return (
-        <div className="productItem">
+        <div onClick={e=> {
+            if(e.target.tagName != 'BUTTON')setIsOpen(true)
+            }} className="productItem">
+            <PorductModal  {...{addToCart,modalIsOpen,setIsOpen,product}}/>
             <div className="productItem__image">
               <img  src={image}  />
             </div>
             <p className="productItem__title">{title} </p>
-            {/* <p className="productItem__description">{description}</p> */}
-            {/* <div className="productItem__sizes">
-                <p>sizes</p>
-                <ul> {sizes.map(s=><li>{s}</li>)}</ul>
-            </div> */}
             <div className="productItem__bottom">
                  <p>${price}</p>
                  <button onClick={()=>addToCart(product)} className="btn">Add to cart</button>
