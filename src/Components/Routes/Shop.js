@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import Products from '../Products/Products'
 import Cart from '../Products/Cart'
+
 const Shop=()=> {
     const [cartItems, setcartItems] = useState([])
     
