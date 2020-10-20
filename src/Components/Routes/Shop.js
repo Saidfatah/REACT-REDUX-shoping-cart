@@ -1,8 +1,17 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Products from '../Products/Products'
 import Cart from '../Products/Cart'
 const Shop=()=> {
     const [cartItems, setcartItems] = useState([])
+    
+    useEffect(() => {
+        const cartItemsFromLocalStorage= localStorage.getItem('cart')
+        if(cartItemsFromLocalStorage)
+        {
+            setcartItems(JSON.parse(cartItemsFromLocalStorage))
+        }
+    }, [])
+
 
     const addToCart=(product)=>{
          const cartItemIndex = cartItems.indexOf([...cartItems].filter(cartItem=>cartItem._id == product._id)[0])
@@ -16,6 +25,7 @@ const Shop=()=> {
              tempCrtItems.push(({...product,quanitity:1}))
          }
 
+         localStorage.setItem('cart',JSON.stringify(tempCrtItems))
          setcartItems(tempCrtItems)
     }
     const deleteCartItem = (_id)=>{
