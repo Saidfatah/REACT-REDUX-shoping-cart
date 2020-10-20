@@ -45,30 +45,32 @@ const PorductModal=({modalIsOpen,setIsOpen,addToCart,product}) =>{
     }
 
     return (
-            <Modal
-                isOpen={open}
-                style={customStyles}
-                onAfterOpen={afterOpenModal}
-                onAfterClose={afterCloseModal}
-                onRequestClose={closeModal}
-                shouldCloseOnEsc={true}        
-                overlayClassName="modalOverlay"
-                contentLabel="Product title"    
-             >
-                 <div  className="modal" style={{display:open?'block':'none'}} >
-                      <div className="productItem__image">
-                       <img  src={image}  />
-                      </div>
-                      <p className="productItem__title">{title} </p>
-                      <p className="productItem__description">{description}</p>
-                     <div className="productItem__sizes">
-                         <p>sizes</p>
-                         <ul> {sizes.map((s,i)=><li key={i}>{s}</li>)}</ul>
-                     </div>
-                     <div className="productItem__bottom">
-                           <p>${price}</p>
-                           <button onClick={()=>addToCart(product)} className="btn">Add to cart</button>
-                      </div>
+        <Modal
+            isOpen={open}
+            style={customStyles}
+            onAfterOpen={afterOpenModal}
+            onAfterClose={afterCloseModal}
+            onRequestClose={closeModal}
+            shouldCloseOnEsc={true}        
+            overlayClassName="modalOverlay"
+            contentLabel="Product title"    
+         >
+                 <div  className="modal" style={{display:open?'flex':'none'}} >
+                    <div className="productItem__image">
+                           <img  src={image}  />
+                    </div>
+                    <div>
+                           <p className="productItem__title">{title} </p>
+                           <p className="productItem__description">{description}</p>
+                           <div className="productItem__sizes">
+                               <p>Avaiable sizes :</p>
+                               <ul> {sizes.map((s,i)=><li key={i}>{s}</li>)}</ul>
+                           </div>
+                           <div className="productItem__bottom">
+                               <p>${price}</p>
+                               <button onClick={()=>addToCart(product)} className="btn">Add to cart</button>
+                           </div>
+                    </div>
                  </div>
 
          </Modal>

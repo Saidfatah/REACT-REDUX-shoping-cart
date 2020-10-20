@@ -6,7 +6,7 @@ const Header=()=> {
         <div className="header ">
             <div className="container">
                 <Link to="/" >Shop</Link>
-                <Link to="/" >About</Link>
+                <Link to="/about" >About</Link>
             </div>
         </div>
     )
