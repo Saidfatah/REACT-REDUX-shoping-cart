@@ -43,6 +43,12 @@ ul{list-style: none;}
 
 }
 
+.err{
+  padding: .25rem 1rem;
+  background-color: red;
+  font-size: .8rem;
+  color: #fff;
+}
 .btn{
   padding: .25rem 1rem;
   background-color: var(--colorPrimary);
@@ -82,8 +88,7 @@ display: flex;
 flex: 1;
 }
 .products{
-
-flex: 4;
+ flex: 4;
 }
 .products__wrapper{
   display: flex;
@@ -94,7 +99,7 @@ flex: 4;
   display: flex;
   padding: 1rem 1rem;
   margin-top: 1rem;
-  border:1px solid  var(--colorPrimaryDark);
+  border-bottom:1px solid  var(--colorPrimaryDark);
 }
 .products__count{
    margin-right: 1rem;
@@ -141,7 +146,9 @@ flex: 4;
   justify-content: center;
   max-width: 350px;
   padding: 1rem;
-  margin: .25rem;
+  margin-right: .25rem;
+  margin-bottom: .25rem;
+  margin-top: .25rem;
   border:1px solid var(--colorPrimaryDark);
   animation: productFadeIn .5s ease-out forwards;
 }
@@ -233,7 +240,24 @@ flex: 4;
 }
 
 /* #endregion  */
+/* #region checkout form  */
+.form{
+  width: 100%;
+  position: relative;
+  top:50px;
+  opacity: 0;
+  animation: productFadeIn .5s ease-out forwards;
+}
+.form input{
+  width: 100%;
+  padding: .5rem;
+  margin-top: 1rem;
+  color : var(--colorPrimaryDark);
+  border: 1px solid var(--colorPrimaryDark);
+}
 
+
+/* #endregion  */
 
 @keyframes productFadeIn {
   100%{
