@@ -30,6 +30,7 @@ const Shop=()=> {
     }
     const deleteCartItem = (_id)=>{
         const tempCrtItems=  [...cartItems].filter(cartItem=>cartItem._id != _id)
+        //checkout update 
         localStorage.setItem('cart',JSON.stringify(tempCrtItems))
         setcartItems(tempCrtItems)
     }
