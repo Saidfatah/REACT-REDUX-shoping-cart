@@ -1,6 +1,7 @@
 {
   "name": "react-shoping-cart",
   "version": "0.1.0",
+  "proxy":"http://localhost:4000",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -15,8 +16,11 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-modal": "^3.11.2",
+    "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
