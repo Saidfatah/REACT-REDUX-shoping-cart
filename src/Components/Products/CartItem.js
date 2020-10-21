@@ -1,7 +1,7 @@
 import React from 'react'
 
-const CartItem=({item,deleteCartItem})=> {
-    const {title,image,price,description,quanitity,sizes,_id}=item
+const CartItem=({item,removeCartItem,cartItems})=> {
+    const {title,image,price,quanitity,_id}=item
     return (
         <div className="cartItem">
              <div>
@@ -10,7 +10,7 @@ const CartItem=({item,deleteCartItem})=> {
              <div >
                 <p  className="cartItem__title">{title}</p>
                 <p  className="cartItem__price"> <span>{quanitity}</span> x {price}</p>
-                <button className="btn-grey" onClick={e=>deleteCartItem(_id)}>remove</button>
+                <button className="btn-grey" onClick={e=>removeCartItem(_id,cartItems)}>remove</button>
              </div>
         </div>
     )
