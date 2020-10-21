@@ -3,32 +3,20 @@ import ProductItem from './ProductItem'
 import productsData from '../../data.json'
 import Cart from './Cart'
 import FilterBar from './FilterBar'
-import axios from 'axios'
+import {connect} from 'react-redux'
+import {fetchProducts} from '../../Redux/actions/ProductActions'
 
-const Products=({addToCart})=>{
-    const [products, setproducts] = useState([])
+
+const Products=(props)=>{
     const [productsToDisplay, setproductsToDisplay] = useState([])
-
+    const {addToCart,fetchProducts,products}=props
 
     useEffect(() => {
-        let source = axios.CancelToken.source();
-        (async ()=>{
-            try {
-                axios.get('http://localhost:4000/products',{cancelToken:source.token})
-                .then(res=>{
-                    setproducts(res.data)
-                    setproductsToDisplay(res.data)
-                })
-                .catch(err=>console.log(err))
-            } catch (error) {
-                 if(axios.isCancel(error)) console.log('canceld request')
-                 else throw error
-            }
-        })()
+        setproductsToDisplay(products)
+    }, [products])
 
-        return ()=>{ source.cancel()}
-
-  
+    useEffect(() => {
+        fetchProducts()
     }, [])
 
 
@@ -44,4 +32,4 @@ const Products=({addToCart})=>{
     )
 }
 
-export default Products
+export default connect((state)=>({products:state.products}),{fetchProducts})(Products)
