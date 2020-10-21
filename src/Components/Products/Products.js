@@ -1,35 +1,34 @@
-import React,{useState,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import ProductItem from './ProductItem'
-import productsData from '../../data.json'
-import Cart from './Cart'
 import FilterBar from './FilterBar'
 import {connect} from 'react-redux'
 import {fetchProducts} from '../../Redux/actions/ProductActions'
 
 
 const Products=(props)=>{
-    const [productsToDisplay, setproductsToDisplay] = useState([])
-    const {addToCart,fetchProducts,products}=props
-
-    useEffect(() => {
-        setproductsToDisplay(products)
-    }, [products])
+    const {addToCart,fetchProducts,products,filteredProducts}=props
 
     useEffect(() => {
         fetchProducts()
     }, [])
 
-
     return (
       <div className="products">
           <div className="products__header"> 
-              <FilterBar {...{setproductsToDisplay,products}} />   
+              <FilterBar />   
           </div>
           <div className="products__wrapper">
-              {productsToDisplay.map((product,index)=><ProductItem  key={index} {...{addToCart,product}} />)}
+                 {
+                   filteredProducts.length>0 
+                   ?filteredProducts.map((product,index)=><ProductItem  key={index} {...{addToCart,product}} />)
+                   :'loading products'
+                 }
           </div>
       </div>
     )
 }
 
-export default connect((state)=>({products:state.products}),{fetchProducts})(Products)
+export default connect((state)=>({
+    products  : state.products.items,
+    filteredProducts :  state.products.filterdProducts
+}),{fetchProducts})(Products)
