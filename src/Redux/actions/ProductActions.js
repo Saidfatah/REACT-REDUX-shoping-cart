@@ -5,7 +5,6 @@ import {FETCH_PRODUCTS,FILTER_PRODUCTS_BY_SIZE,ORDER_PRODUCTS_BY_PRICE} from '..
 export const fetchProducts=()=>async (dispatch)=>{
     try {
          const productsResponse = await axios.get('http://localhost:4000/products')
-         console.log(productsResponse.data)
          dispatch({type:FETCH_PRODUCTS,payload:productsResponse.data})
     } catch (error) {
         console.log(error)

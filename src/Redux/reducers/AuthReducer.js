@@ -21,7 +21,7 @@ export const authReducer=(state=initialState,action)=>{
     if(state == undefined) return state 
     switch (action.type) {
         case USER_LOADING          : return {...state, isLoading :true }
-        case USER_LOADED           : return {...state, isAuthenticated :true , isLoading :true ,user :action.payload }
+        case USER_LOADED           : return {...state, isAuthenticated :true , isLoading :false ,user :action.payload }
 
         case USER_REGESTER_SUCCESS : 
         case USER_LOGGIN_SUCCES    : 

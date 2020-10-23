@@ -8,11 +8,13 @@ const Regester=(props)=> {
     const [userInfo, setuserInfo] = useState({
         password:'',
         email:'',
+        address:'',
         firstName:'',
         lastName:''
     })
     const [errs,setErr]=useState({
          passwordReq:false ,
+         addressReq:false ,
          emailReq:false,
          firstnameReq:false,
          lastnameReq:false,
@@ -44,7 +46,7 @@ const Regester=(props)=> {
        })
     }
     const validate=()=>{
-        const {firstName,lastName,email,password}=userInfo
+        const {firstName,lastName,email,password,address}=userInfo
         const errsObjTemp ={...errs}
 
         let errsCount = 0 ; 
@@ -64,19 +66,17 @@ const Regester=(props)=> {
              errsObjTemp.passwordReq=true
              errsCount++
         }
+        if(password== ''){
+             errsObjTemp.addressReq=true
+             errsCount++
+        }
  
         setErr({...errsObjTemp})
         return errsCount>0 ? false :true
     }
     const submitUser=(e)=>{
          e.preventDefault()
-         console.log('validatt') 
          if(!validate()) return ;
-         console.log('validatt') 
-         //setcanSubmit(false)
-         //setregisterSucces(true)
-         //setcanSubmit(true)
-         //window.location.reload();
          register(userInfo)
     }
     const handleChange=(field)=>(e)=>setuserInfo({...userInfo,[field]:e.target.value})
@@ -104,6 +104,7 @@ const Regester=(props)=> {
           value={userInfo.lastName}
           />
          <Error trigger={errs.lastnameReq} message="Last name is required" />
+
          <input 
           type="email" 
           name="email" 
@@ -113,6 +114,16 @@ const Regester=(props)=> {
          />
          <Error trigger={errs.emailReq} message="Email is required" />
          <Error trigger={errs.emailUsed} message="Email is already used " />
+
+         <input 
+          type="tes" 
+          name="address" 
+          placeholder="Address" 
+          onChange={handleChange('address')} 
+          value={userInfo.address}
+         />
+         <Error trigger={errs.addresReq} message="Address is required" />
+
          
 
          <input 

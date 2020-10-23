@@ -17,27 +17,39 @@ const defaultUserInfo= {
 const Checkout=(props)=> {
     const [userInfo, setuserInfo] = useState({...defaultUserInfo})
     const [errs, seterrs] = useState({...defaultErrsObj})
-    const {isCheckoutFormVisible,setisCheckoutFormVisible,cartItems,createOrder,isAuthenticated,user,error,canOrder}=props
+    const {
+        isCheckoutFormVisible,
+        setisCheckoutFormVisible,
+        cartItems,
+        order,
+        isAuthenticated,
+        user,
+        error,
+        canOrder
+    }=props
 
     useEffect(() => {
         if(error.id=="ORDER_FAIL")seterrs({...errs,ORDER_FAIL:true})
     },[error])
-    useEffect(() => {
-        if(isAuthenticated && user){
-            setuserInfo({
-                fullName:user.firstName + ' ' + user.lastName,
-                email:user.email,
-                address:user.email.address,
-            })
-        }
-    },[isAuthenticated])  
+
     useEffect(() => {
         if(cartItems && cartItems.length == 0){
             setisCheckoutFormVisible(false)
         }
+        if(isAuthenticated ){
+            console.log('set now')
+            setuserInfo({...defaultUserInfo,
+                fullName:user.firstName + ' ' + user.lastName,
+                email:user.email,
+                address:user.address,
+            })
+        }else{
             setuserInfo({...defaultUserInfo})
+        }
     
-    }, [isCheckoutFormVisible,cartItems])
+    }, [isCheckoutFormVisible,cartItems,isAuthenticated])
+
+   
 
     const handleChange=(field)=>(e)=>setuserInfo({...userInfo,[field]:e.target.value})
 
@@ -60,7 +72,7 @@ const Checkout=(props)=> {
         }
         
         if(errsCount > 0 ) return seterrs(errsTemp)
-        const order ={
+        order({
             fullName,
             address,
             total:cartItems.map(item=>parseFloat(item.price)*item.quanitity).reduce((a, b)=> a + b , 0).toFixed(2),
@@ -68,8 +80,7 @@ const Checkout=(props)=> {
             email,
             items:cartItems, 
             user_id:isAuthenticated && user ? user._id : '5f919ff9b5d6651cac54bb07'
-        }
-        createOrder(order)
+        })
         setisCheckoutFormVisible(false)
     }
  

@@ -27,6 +27,7 @@ router.post('/login',async (req,res)=>{
                 firstName:userGetResponse.firstName,
                 lastName:userGetResponse.lastName,
                 email:userGetResponse.email,
+                address:userGetResponse.address,
                 rule:userGetResponse.rule,
             }
         }))
@@ -39,7 +40,7 @@ router.post('/login',async (req,res)=>{
 })
 router.post('/register',async(req,res)=>{
     try {
-        const {email,password,firstName,lastName}= req.body
+        const {email,password,address,firstName,lastName}= req.body
 
         const passHash=await bcrypt.hash(password,1);
         if(passHash == undefined) throw new Error('erro hassing password'); 
@@ -48,7 +49,7 @@ router.post('/register',async(req,res)=>{
         if( checkEmailExistsResponse !== null) throw new Error('EMAIL')
 
        
-        const userDoc= new UserModel({ password:passHash,email,firstName,lastName,rule:'admin'}).save()
+        const userDoc= new UserModel({ password:passHash,email,firstName,address,lastName,rule:'admin'}).save()
         const userSaveResponse = await userDoc
         if(userSaveResponse._id == undefined) throw new Error('REGISTER')
 
@@ -62,6 +63,7 @@ router.post('/register',async(req,res)=>{
                     _id:userSaveResponse._id ,
                     fullName:userSaveResponse.firstName,
                     email:userSaveResponse.email,
+                    address:userSaveResponse.address,
                     rule:userSaveResponse.rule,
                 }
         }))
