@@ -4,7 +4,7 @@ import CartItem from './CartItem'
 import Checkout from './Checkout'
 import {removeCartItem} from '../../Redux/actions/CartActions'
 
-const Cart=({cartItems,removeCartItem,createOrder})=> {
+const Cart=({cartItems,removeCartItem})=> {
      const [isCheckoutFormVisible, setisCheckoutFormVisible] = useState(false)
 
      return (
@@ -25,7 +25,7 @@ const Cart=({cartItems,removeCartItem,createOrder})=> {
                          :null
                      }
                  </div>
-                 <Checkout {...{isCheckoutFormVisible,setisCheckoutFormVisible,cartItems, createOrder}} />
+                 <Checkout {...{isCheckoutFormVisible,setisCheckoutFormVisible}} />
              </div>
          </div>
      )

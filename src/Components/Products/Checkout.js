@@ -1,10 +1,12 @@
-import React,{useEffect,useState,useRef} from 'react'
+import React,{useEffect,useState} from 'react'
+import { connect } from 'react-redux'
 import Error from '../layout/Error'
-
+import {order} from '../../Redux/actions/OrdersActions'
 const defaultErrsObj= {
     fullNameReq:false,
     emailReq:false,
-    addressReq:false
+    addressReq:false,
+    ORDER_FAIL:false
 }
 const defaultUserInfo= {
     fullName:'',
@@ -12,21 +14,34 @@ const defaultUserInfo= {
     address:'',
 }
 
-const Checkout=({isCheckoutFormVisible,setisCheckoutFormVisible,cartItems,createOrder})=> {
+const Checkout=(props)=> {
     const [userInfo, setuserInfo] = useState({...defaultUserInfo})
     const [errs, seterrs] = useState({...defaultErrsObj})
-
-
-    const formRef= useRef()
+    const {isCheckoutFormVisible,setisCheckoutFormVisible,cartItems,createOrder,isAuthenticated,user,error,canOrder}=props
 
     useEffect(() => {
-        if(cartItems && cartItems.length == 0)setisCheckoutFormVisible(false)
-         setuserInfo({...defaultUserInfo})
+        if(error.id=="ORDER_FAIL")seterrs({...errs,ORDER_FAIL:true})
+    },[error])
+    useEffect(() => {
+        if(isAuthenticated && user){
+            setuserInfo({
+                fullName:user.firstName + ' ' + user.lastName,
+                email:user.email,
+                address:user.email.address,
+            })
+        }
+    },[isAuthenticated])  
+    useEffect(() => {
+        if(cartItems && cartItems.length == 0){
+            setisCheckoutFormVisible(false)
+        }
+            setuserInfo({...defaultUserInfo})
+    
     }, [isCheckoutFormVisible,cartItems])
 
     const handleChange=(field)=>(e)=>setuserInfo({...userInfo,[field]:e.target.value})
 
-    const submit=(e)=>{
+    const submit=async (e)=>{
         e.preventDefault()
         const errsTemp = {...errs}
         const {email,fullName,address} = userInfo
@@ -45,14 +60,21 @@ const Checkout=({isCheckoutFormVisible,setisCheckoutFormVisible,cartItems,create
         }
         
         if(errsCount > 0 ) return seterrs(errsTemp)
-        //submit to db here 
-        const order ={cartItems, email,fullName,address}
+        const order ={
+            fullName,
+            address,
+            total:cartItems.map(item=>parseFloat(item.price)*item.quanitity).reduce((a, b)=> a + b , 0).toFixed(2),
+            date:new Date(),
+            email,
+            items:cartItems, 
+            user_id:isAuthenticated && user ? user._id : '5f919ff9b5d6651cac54bb07'
+        }
         createOrder(order)
         setisCheckoutFormVisible(false)
     }
  
     return (
-        <form onSubmit={submit} style={{display:isCheckoutFormVisible?'block':'none'}} className="form" ref={formRef}>
+        <form onSubmit={submit} style={{display:isCheckoutFormVisible?'block':'none'}} className="form" >
             <input 
                   type="text" 
                   placeholder="Full name" 
@@ -80,10 +102,18 @@ const Checkout=({isCheckoutFormVisible,setisCheckoutFormVisible,cartItems,create
             /> 
             <Error trigger={errs.addressReq} message="address is reqauired " />
             
-            <button type="submit" className="btn"  >Submit</button>
+            <button type="submit" className="btn" disabled={!canOrder} >Submit</button>
+            <Error trigger={errs.ORDER_FAIL} message="Something went wrong try later " />
         </form>
     )
 
 }
 
-export default Checkout
+export default connect(state=>({
+    isAuthenticated : state.auth.isAuthenticated ,
+    user            : state.auth.user,
+    canOrder        : state.orders.canOrder,
+    error           : state.error,
+    cartItems       : state.cart.items,
+
+}),{order})(Checkout)

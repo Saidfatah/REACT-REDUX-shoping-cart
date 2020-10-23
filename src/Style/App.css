@@ -50,15 +50,21 @@ ul{list-style: none;}
   background-color: red;
   font-size: .8rem;
   color: #fff;
+  animation: productFadeIn .5s ease-out forwards;
+  position: relative;
+  top:10px;
+  opacity: 0;
 }
 .btn{
   padding: .25rem 1rem;
+  cursor: pointer;
   color: var(--colorBlueGrey);
   background-color: var(--colorPrimary);
   border: 1px solid var(--colorPrimaryDark) ;
   transition:all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .btn-grey{
+  cursor: pointer;
   color:var(--colorPrimary);
   padding: .25rem 1rem;
   background-color: var(--colorBlueGrey);
