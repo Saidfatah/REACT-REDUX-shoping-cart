@@ -3,8 +3,11 @@ const app = express()
 const mongoose = require('mongoose')
 const cors =require('cors')
 const bodyParser =require('body-parser')
-const productRoute = require('./routes/products').router
-const ProductModel = require('./Models/Product') 
+
+const productRoute = require('./routes/products')
+const userRoute = require('./routes/user')
+const ordersRoute = require('./routes/Order')
+
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -24,6 +27,8 @@ mongoose.connect('mongodb+srv://admin:123456Imgamers@saidfatah.sfpyf.mongodb.net
 
 
 app.use('/products',productRoute)
+app.use('/users',userRoute)
+app.use('/orders',ordersRoute)
 
 
 app.listen(4000,  ()=> {

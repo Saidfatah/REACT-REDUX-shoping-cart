@@ -2,39 +2,32 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const UserModel = require('../Models/User')
-const axios = require('axios')
+const verifyToken = require('../config/jwt')
 
-
-
-router.get('/:id',(req,res)=>{
-
-})
 
 router.post('/login',async (req,res)=>{
-    const email = req.body.email
-    const password = req.body.password
-  
     try {      
-        const userGetPromise = await  UserModel.findOne({email})
-        if(userGetPromise == undefined) throw new Error('no user with this email')
+        const email = req.body.email
+        const password = req.body.password
+        
+        const userGetResponse = await  UserModel.findOne({email})
+        if(userGetResponse == undefined) throw new Error('no user with this email')
 
-        const passCheck =await bcrypt.compare(password, userGetPromise.password)
+        const passCheck =await bcrypt.compare(password, userGetResponse.password)
         if(!passCheck) throw new Error('wrong password')
 
         jwt.sign(
-        {userGetPromise},
+        {userGetResponse},
         'secretKey',
         {expiresIn:'10h'},
         (err,token)=>res.json({
             token,
-            rule:userGetPromise.rule,
             user:{
-                id:userGetPromise._id,
-                firstname:userGetPromise.firstname,
-                lastname:userGetPromise.lastname,
-                email:userGetPromise.email,
-                rule:userGetPromise.rule,
-                addresses:userGetPromise.addresses,
+                _id:userGetResponse._id,
+                firstName:userGetResponse.firstName,
+                lastName:userGetResponse.lastName,
+                email:userGetResponse.email,
+                rule:userGetResponse.rule,
             }
         }))
   
@@ -44,10 +37,9 @@ router.post('/login',async (req,res)=>{
     }
 
 })
-
 router.post('/register',async(req,res)=>{
     try {
-        const {email,password,firstname,lastname}=  req.body
+        const {email,password,firstName,lastName}= req.body
 
         const passHash=await bcrypt.hash(password,1);
         if(passHash == undefined) throw new Error('erro hassing password'); 
@@ -56,24 +48,21 @@ router.post('/register',async(req,res)=>{
         if( checkEmailExistsResponse !== null) throw new Error('EMAIL')
 
        
-        const userDoc= new UserModel({ password:passHash,email,firstname,lastname,addresses:[],rule:'costumer'}).save()
-        const userSave = await userDoc
-        if(userSave._id == undefined) throw new Error('REGISTER')
+        const userDoc= new UserModel({ password:passHash,email,firstName,lastName,rule:'admin'}).save()
+        const userSaveResponse = await userDoc
+        if(userSaveResponse._id == undefined) throw new Error('REGISTER')
 
         jwt.sign(
-            {userSave},
+            {userSaveResponse},
             'secretKey',
             {expiresIn:'10h'},
             (err,token)=>res.json({
                 token,
-                rule:userSave.rule,
                 user:{
-                    id:userSave._id ,
-                    firstname:userSave.firstname,
-                    lastname:userSave.lastname,
-                    email:userSave.email,
-                    rule:userSave.rule,
-                    addresses:userSave.addresses,
+                    _id:userSaveResponse._id ,
+                    fullName:userSaveResponse.firstName,
+                    email:userSaveResponse.email,
+                    rule:userSaveResponse.rule,
                 }
         }))
 
@@ -86,56 +75,20 @@ router.post('/register',async(req,res)=>{
              res.statusMessage='REGISTER';
              res.sendStatus(403)
         }
-        if(error.message=="ROBOT"){
-            res.statusMessage='ROBOT';
-            res.sendStatus(403)
-        }
        console.log(error)
     }
 })
 
-// router.post('/update',async(req,res)=>{
-//     try {      
-//         const {id,addresses}=  req.body
-//         if (!id || addresses.lenght>0) throw new Error('SOMTHING_WENT_WRONG')
-      
-//         const existingUser = await UserModel.findOne({ _id: id });
-//         if (!existingUser) throw new Error('INVALID_ID')
-
-
-//         const update = { addresses};
-//         const updateResponse = await existingUser.updateOne(update);
-//         const updatedDoc = await UserModel.findOne({_id:id});
-
-//         jwt.sign(
-//             {updatedDoc},
-//             'secretKey',
-//             {expiresIn:'10h'},
-//             (err,token)=>res.json({
-//                 token,
-//                 rule:updatedDoc.rule,
-//                 user:{
-//                     id:updatedDoc._id ,
-//                     firstname:updatedDoc.firstname,
-//                     lastname:updatedDoc.lastname,
-//                     email:updatedDoc.email,
-//                     rule:updatedDoc.rule,
-//                     addresses:updatedDoc.addresses,
-//                 }
-//         }))
-
-//     } catch (error) {
-//        console.log(error)
-//         if(error.message=="SOMTHING_WENT_WRONG"){
-//          res.statusMessage='SOMTHING_WENT_WRONG';
-//          res.sendStatus(403) 
-//         }
-//         if(error.message=="INVALID_ID"){
-//          res.statusMessage='INVALID_ID';
-//          res.sendStatus(403)  
-//         }
-//     }
-// })
-
+router.post('/user',verifyToken,async(req,res)=>{
+    try {
+        const usetGetResponse = await UserModel.findById(req.body.user._id).select('-password')
+        if(usetGetResponse == undefined) throw new Error('NO_USER_FOUND')
+        res.json(usetGetResponse)
+     } catch (error) {
+        console.log(error)
+        res.statusMessage='NO_USER_FOUND';
+        res.sendStatus(403)
+     }
+})
 
 module.exports = router
