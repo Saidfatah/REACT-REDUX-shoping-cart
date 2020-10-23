@@ -20,7 +20,7 @@ router.get('/',verifyToken,async (req,res)=>{
 router.post('/',async(req,res)=>{
     try {
          const {fullName,address,total,email,date,items,user_id} = req.body 
-         const OderSave= new UserModel({fullName,address,total,email,date,items,user_id}).save()
+         const OderSave= new UserModel({fullName,address,total,email,date,items,user_id,state:'PENDING'}).save()
          const OderSaveResponse = await OderSave
          if(OderSaveResponse._id == undefined) throw new Error('ODER_FAIL')
          res.send(OderSaveResponse)

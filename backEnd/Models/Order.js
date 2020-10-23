@@ -9,6 +9,7 @@ const OrderSchema = new Schema(
          date:date,
          email:String,
          items:[],
+         state:String,
          user_id:Schema.Types.ObjectId
     }
 )
