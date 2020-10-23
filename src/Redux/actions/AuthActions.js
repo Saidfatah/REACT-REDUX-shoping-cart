@@ -49,11 +49,9 @@ export const loadUser=(user)=>async (dispatch,getState)=>{
      }
 }
 export const logout =()=>({type:LOGOUT_SUCCES})
-export const register=({firstName,lastName,email,password})=>async(dispatch)=>{
-     //can submit toggle 
-     //set regsiter succes 
+export const register=({firstName,lastName,email,password,address})=>async(dispatch)=>{
      try {
-           const regsterUserResponse= await axios.post('http://localhost:4000/users/register',{...firstName,lastName,email,password,rule:"admin"})
+           const regsterUserResponse= await axios.post('http://localhost:4000/users/register',{...firstName,lastName,address,email,password,rule:"admin"})
            if(regsterUserResponse.data.user == undefined) throw new Error('REGISTER') ; 
            dispatch({type:USER_REGESTER_SUCCESS ,payload:regsterUserResponse.data})
      } catch (error) {
